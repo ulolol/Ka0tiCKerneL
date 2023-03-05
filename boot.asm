@@ -8,30 +8,30 @@ start:
     mov ss,ax
     mov sp,0x7c00
 
-TestDiskextension:
-    mov [DriveId], dl
-    mov ah, 0x41
-    mov bx, 0x55aa
+TestDiskExtension:
+    mov [DriveId],dl
+    mov ah,0x41
+    mov bx,0x55aa
     int 0x13
     jc NotSupport
-    cmp bx, 0xaa55
+    cmp bx,0xaa55
     jne NotSupport
 
 LoadLoader:
-    mov si, ReadPacket
-    mov word[si], 0x10
-    mov word[si+2], 5
-    mov word[si+4], 0x7e00
-    mov word[si+6], 0
-    mov dword[si+8], 1
-    mov dword[si+0xc], 0
-    mov dl, [DriveId]
-    mov ah, 0x42
+    mov si,ReadPacket
+    mov word[si],0x10
+    mov word[si+2],5
+    mov word[si+4],0x7e00
+    mov word[si+6],0
+    mov dword[si+8],1
+    mov dword[si+0xc],0
+    mov dl,[DriveId]
+    mov ah,0x42
     int 0x13
-    jc ReadError
+    jc  ReadError
 
-    mov dl, [DriveId]
-    jmp 0x7e00
+    mov dl,[DriveId]
+    jmp 0x7e00 
 
 ReadError:
 NotSupport:
@@ -46,9 +46,9 @@ NotSupport:
 End:
     hlt    
     jmp End
-
-DriveId:    db 0     
-Message:    db "Error in Bootloader"
+    
+DriveId:    db 0
+Message:    db "We have an error in boot process"
 MessageLen: equ $-Message
 ReadPacket: times 16 db 0
 
